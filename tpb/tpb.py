@@ -10,21 +10,26 @@ Unofficial Python API for ThePirateBay.
 from __future__ import unicode_literals
 
 import datetime
-import dateutil.parser
 from functools import wraps
-from lxml import html
-import os
 import re
 import sys
 import time
 
+import dateutil.parser
+from lxml import html
+from requests import get as _get
+
 from .utils import URL
 
-from requests import get
+
+def get(url, *args, **kwargs):
+    if 'timeout' not in kwargs:
+        kwargs['timeout'] = 20
+    return _get(url, *args, **kwargs)
+
 
 if sys.version_info >= (3, 0):
     unicode = str
-
 
 def self_if_parameters(func):
     """
